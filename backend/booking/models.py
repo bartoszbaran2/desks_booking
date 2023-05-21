@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from django.db import models
 
 
@@ -31,10 +30,24 @@ class Desk(models.Model):
 
 
 class Reservation(models.Model):
-    user = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING, related_name="reservations")
+    employee = models.ForeignKey("Employee", on_delete=models.DO_NOTHING, related_name="reservations")
     desk = models.ForeignKey("Desk", on_delete=models.CASCADE, related_name="reservations")
     reservation_date = models.DateField()
     date_reserved = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"User: {self.user.username} | Date:{self.reservation_date}"
+        return f"User: {self.employee} | Date:{self.reservation_date}"
+
+
+class Employee(models.Model):
+    name = models.CharField(max_length=64)
+    username = models.CharField(max_length=8)
+    department = models.ForeignKey("Department", on_delete=models.DO_NOTHING, related_name="employees")
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        self.username = self.username.upper()
+        self.name = self.name.capitalize()
+        super().save(*args, **kwargs)
