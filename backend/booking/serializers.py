@@ -14,10 +14,10 @@ class DepartmentSerializer(ModelSerializer):
 class DeskSerializer(ModelSerializer):
     class Meta:
         model = models.Desk
-        fields = ("id", "desk_number")
+        fields = ("id", "desk_code")
 
 
 class ReservationSerializer(ModelSerializer):
     class Meta:
         model = models.Reservation
-        fields = ("user", "desk", "reservation_date", "date_reserved")
+        fields = ("id", "user", "desk", "reservation_date", "date_reserved")

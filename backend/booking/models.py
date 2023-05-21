@@ -11,29 +11,29 @@ class Department(models.Model):
 
 class Desk(models.Model):
     department = models.ForeignKey("Department", on_delete=models.CASCADE, related_name="desks")
-    desk_number = models.CharField(editable=False)
+    desk_code = models.CharField(editable=False)
 
     def __str__(self):
-        return self.desk_number
+        return self.desk_code
 
-    def generate_desk_number(self):
+    def generate_desk_code(self):
         """Generates a unique desk id based on the current amount of desk in given department and department name
         :rtype: str
         """
         desks_in_department = Desk.objects.filter(department=self.department).count()
-        desk_number = f"{self.department.name}0{desks_in_department + 1}"
-        return desk_number
+        desk_code = f"{self.department.name}0{desks_in_department + 1}"
+        return desk_code
 
     def save(self, *args, **kwargs):
-        if not self.desk_number:
-            self.desk_number = self.generate_desk_number()
+        if not self.desk_code:
+            self.desk_code = self.generate_desk_code()
         super().save(*args, **kwargs)
 
 
 class Reservation(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING, related_name="reservations")
     desk = models.ForeignKey("Desk", on_delete=models.CASCADE, related_name="reservations")
-    reservation_date = models.DateField(null=True, blank=True)
+    reservation_date = models.DateField()
     date_reserved = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
