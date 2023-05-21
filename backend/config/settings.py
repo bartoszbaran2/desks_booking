@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     # local
     "users.apps.UsersConfig",
-    'booking.apps.BookingConfig',
+    "booking.apps.BookingConfig",
 ]
 
 MIDDLEWARE = [

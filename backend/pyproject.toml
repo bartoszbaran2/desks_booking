@@ -23,6 +23,7 @@ dj-database-url = "2.0.0"
 djangorestframework = "3.14.0"
 drf-spectacular = "0.26.2"
 djangorestframework-stubs = "^3.14.0"
+pytest-cov = "4.0.0"
 
 
 [build-system]
@@ -32,6 +33,20 @@ build-backend = "poetry.core.masonry.api"
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "config.settings"
 python_files = "test_*.py"
+
+addopts = [
+    "--cov=.",
+    "--cov-config=.coveragerc",
+    "--cov-report",
+    "term-missing:skip-covered",
+    "--cov-fail-under=80"
+]
+
+[tool.pytest.markers]
+slow = "Run slow unit test e.g. for models"
+unit = "Run unit tests"
+smoke = "Run core unit tests"
+dbtest = "Run database tests"
 
 [tool.black]
 line-length = 120
